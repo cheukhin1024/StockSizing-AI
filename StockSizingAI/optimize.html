@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>StockSizing AI - Portfolio Optimizer</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+
+        header {
+            background-color: #007bff;
+            color: white;
+            padding: 1rem;
+            text-align: center;
+        }
+
+        .brand {
+            font-size: 2rem;
+            margin: 0;
+        }
+
+        .brand span {
+            color: #ff4444;
+        }
+
+        nav {
+            background-color: #0056b3;
+            padding: 1rem;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            margin: 0 1rem;
+            font-weight: bold;
+        }
+
+        nav a:hover {
+            color: #ddd;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 2rem;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        form {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        label {
+            display: block;
+            margin: 10px 0 5px;
+            font-weight: bold;
+            color: #333;
+        }
+
+        input[type="date"],
+        input[type="text"] {
+            width: 100%;
+            padding: 10px;
+            margin: 5px 0 15px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+
+        button {
+            background-color: #007bff;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin: 5px;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        .cancelAsset {
+            background-color: #ff7f50;
+        }
+
+        .cancelAsset:hover {
+            background-color: #ff6347;
+        }
+
+        #result {
+            margin-top: 20px;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 4px;
+        }
+
+        #chart {
+            max-width: 100%;
+            margin: 20px auto;
+            display: block;
+        }
+
+        footer {
+            background-color: #007bff;
+            color: white;
+            text-align: center;
+            padding: 1rem;
+            position: relative;
+            bottom: 0;
+            width: 100%;
+        }
+
+        .section-title {
+            text-align: center;
+            color: #333;
+            margin-bottom: 2rem;
+        }
+
+        input[type="submit"] {
+            background-color: #28a745;
+            color: white;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 30px;
+            cursor: pointer;
+            font-weight: bold;
+            width: 100%;
+            margin-top: 20px;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #218838;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .plan-limit-notice {
+            text-align: center;
+            color: #666;
+            margin-bottom: 1rem;
+            font-style: italic;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1 class="brand">StockSizing <span>AI</span></h1>
+    </header>
+
+    <nav>
+        <a href="/">Home</a>
+        <a href="/optimize">Portfolio Optimize</a>
+        <a href="/pricing">Pricing</a>
+        <a href="/faq">FAQ</a>
+        <a href="/login">Login</a>
+        <a href="https://billing.stripe.com/p/login/test_7sIdUpc9O0EQ73q8ww">Customer Portal</a>
+    </nav>
+
+    <div class="container">
+        <h2 class="section-title">Portfolio Optimization</h2>
+        <p id="planLimit" class="plan-limit-notice"></p>
+        <form id="portfolioForm">
+            <label for="start_date">Start Date:</label>
+            <input type="date" id="start_date" name="start_date" required>
+            
+            <label for="end_date">End Date:</label>
+            <input type="date" id="end_date" name="end_date" required>
+            
+            <div id="assetInputs">
+                <label for="asset1">Asset 1:</label>
+                <input type="text" id="asset1" name="assets" required>
+                <label for="asset2">Asset 2:</label>
+                <input type="text" id="asset2" name="assets" required>
+            </div>
+
+            <button type="button" id="addAsset">Add Asset</button>
+            <input type="submit" value="Optimize Portfolio">
+        </form>
+
+        <div id="result"></div>
+        <img id="chart" style="display:none;" alt="Portfolio Pie Chart">
+    </div>
+
+    <footer>
+        <p>&copy; 2024 StockSizing AI. All Rights Reserved.</p>
+        <a href="/privacy-policy">Privacy Policy</a>
+        <a href="/terms-of-service">Terms of Service</a>
+    </footer>
+
+    <script>
+        let assetCount = 2;
+        let planLimit = 5; // Default to free plan limit
+
+        // Add this function to check subscription status
+        async function checkSubscription() {
+            try {
+                // Get customer ID from localStorage or wherever you store it
+                const customerId = localStorage.getItem('customer-id');
+                const response = await fetch(`/check-subscription?customer_id=${customerId}`);
+                const data = await response.json();
+                planLimit = data.limit;
+                
+                // Update UI to show current plan limit
+                document.getElementById('planLimit').textContent = 
+                    `Your plan allows up to ${planLimit} assets`;
+                
+                // Disable add button if at limit
+                document.getElementById('addAsset').disabled = assetCount >= planLimit;
+            } catch (error) {
+                console.error('Error checking subscription:', error);
+            }
+        }
+
+        // Call this when page loads
+        checkSubscription();
+
+        document.getElementById('addAsset').addEventListener('click', function() {
+            if (assetCount < planLimit) {
+                assetCount++;
+                const assetDiv = document.createElement('div');
+                assetDiv.innerHTML = `
+                    <label for="asset${assetCount}">Asset ${assetCount}:</label>
+                    <input type="text" id="asset${assetCount}" name="assets" required>
+                    <button type="button" class="cancelAsset">Remove</button>
+                `;
+                document.getElementById('assetInputs').appendChild(assetDiv);
+            }
+            if (assetCount >= planLimit) {
+                this.disabled = true;
+                alert(`You can only add up to ${planLimit} assets with your current plan. Please upgrade for more assets.`);
+            }
+        });
+
+        document.getElementById('assetInputs').addEventListener('click', function(event) {
+            if (event.target.classList.contains('cancelAsset')) {
+                const assetDiv = event.target.parentElement;
+                if (assetCount > 2) {
+                    assetDiv.remove();
+                    assetCount--;
+                    document.getElementById('addAsset').disabled = assetCount >= planLimit;
+                } else {
+                    alert("You must have at least 2 assets.");
+                }
+            }
+        });
+
+        document.getElementById('portfolioForm').addEventListener('submit', async function(event) {
+            event.preventDefault();
+            const formData = new FormData(this);
+            const assets = Array.from(formData.getAll('assets'));
+
+            if (assets.length > planLimit) {
+                alert(`Your current plan only allows up to ${planLimit} assets. Please upgrade your plan to add more assets.`);
+                return;
+            }
+
+            // Add customer ID to headers
+            const headers = {
+                'Content-Type': 'application/json',
+                'customer-id': localStorage.getItem('customer-id')
+            };
+
+            const response = await fetch('/optimize_portfolio', {
+                method: 'POST',
+                headers: headers,
+                body: JSON.stringify({
+                    start_date: formData.get('start_date'),
+                    end_date: formData.get('end_date'),
+                    assets: assets.map(asset => asset.trim())
+                })
+            });
+
+            if (response.status === 403) {
+                const error = await response.json();
+                alert(error.detail);
+                return;
+            }
+
+            const result = await response.json();
+            document.getElementById('result').innerHTML = `
+                <h2>Optimization Results:</h2>
+                <pre>${JSON.stringify(result.weights, null, 2)}</pre>
+            `;
+            const chartImg = document.getElementById('chart');
+            chartImg.src = `data:image/png;base64,${result.plot}`;
+            chartImg.style.display = 'block';
+        });
+    </script>
+</body>
+</html>

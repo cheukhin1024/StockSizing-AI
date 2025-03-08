@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+
+        header {
+            background-color: #007bff;
+            color: white;
+            padding: 1rem;
+            text-align: center;
+        }
+
+        .brand {
+            font-size: 2rem;
+            margin: 0;
+        }
+
+        .brand span {
+            color: #ff4444;
+        }
+
+        .hero {
+            text-align: center;
+            padding: 3rem 1rem;
+            background-color: white;
+        }
+
+        .hero h2 {
+            font-size: 2.5rem;
+            color: #333;
+            margin-bottom: 1rem;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            color: #666;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .pricing-section {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 2rem;
+        }
+
+        footer {
+            background-color: #007bff;
+            color: white;
+            text-align: center;
+            padding: 1rem;
+            position: relative;
+            bottom: 0;
+            width: 100%;
+        }
+
+        nav {
+            background-color: #0056b3;
+            padding: 1rem;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            margin: 0 1rem;
+            font-weight: bold;
+        }
+
+        nav a:hover {
+            color: #ddd;
+        }
+
+        .get-started-btn {
+            display: inline-block;
+            background-color: #007bff;
+            color: white;
+            padding: 1rem 2rem;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: bold;
+            margin-top: 2rem;
+            transition: background-color 0.3s ease;
+        }
+
+        .get-started-btn:hover {
+            background-color: #0056b3;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1 class="brand">StockSizing <span>AI</span></h1>
+    </header>
+
+    <nav>
+        <a href="/">Home</a>
+        <a href="/optimize">Portfolio Optimize</a>
+        <a href="/pricing">Pricing</a>
+        <a href="/faq">FAQ</a>
+        <a href="/login">Login</a>
+        <a href="https://billing.stripe.com/p/login/test_7sIdUpc9O0EQ73q8ww">Customer Portal</a>
+    </nav>
+
+    <div class="hero">
+        <h2>Optimize Your Investment Portfolio</h2>
+        <p>Easily Use Advanced AI algorithms to find your Best Porfolio Weights</p>
+    </div>
+
+    <script async src="https://js.stripe.com/v3/pricing-table.js"></script>
+    <stripe-pricing-table pricing-table-id="prctbl_1QHkZCG4CmYrOkCIwCpxKi3C"
+    publishable-key="pk_test_51QHcHrG4CmYrOkCIsW4pa0fwqV0J16IfBymYiIT82gUcXtHzSXUwHnqw9IV0UHEnfMGo09d7bTJvg2dELL0z5kMz00tZEwRmaw">
+    </stripe-pricing-table>
+
+    <footer>
+        <p>&copy; 2024 StockSizing AI. All Rights Reserved.</p>
+        <a href="/privacy-policy">Privacy Policy</a>
+        <a href="/terms-of-service">Terms of Service</a>
+    </footer>
+</body>
+</html> 

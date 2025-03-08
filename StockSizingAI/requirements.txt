@@ -1,0 +1,10 @@
+fastapi
+uvicorn
+numpy
+pandas
+yfinance
+matplotlib
+riskfolio-lib
+pydantic
+stripe
+clerk-backend-api

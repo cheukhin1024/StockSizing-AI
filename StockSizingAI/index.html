@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>StockSizing AI - Pricing</title>
+    <script async src="https://js.stripe.com/v3/pricing-table.js"></script>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+
+        header {
+            background-color: #007bff;
+            color: white;
+            padding: 1rem;
+            text-align: center;
+        }
+
+        .brand {
+            font-size: 2rem;
+            margin: 0;
+        }
+
+        .brand span {
+            color: #ff4444;
+        }
+
+        .hero {
+            text-align: center;
+            padding: 3rem 1rem;
+            background-color: white;
+        }
+
+        .hero h2 {
+            font-size: 2.5rem;
+            color: #333;
+            margin-bottom: 1rem;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            color: #666;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .pricing-section {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 2rem;
+        }
+
+        footer {
+            background-color: #007bff;
+            color: white;
+            text-align: center;
+            padding: 1rem;
+            position: relative;
+            bottom: 0;
+            width: 100%;
+        }
+
+        nav {
+            background-color: #0056b3;
+            padding: 1rem;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            margin: 0 1rem;
+            font-weight: bold;
+        }
+
+        nav a:hover {
+            color: #ddd;
+        }
+
+        .get-started-btn {
+            display: inline-block;
+            background-color: #007bff;
+            color: white;
+            padding: 1rem 2rem;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: bold;
+            margin-top: 2rem;
+            transition: background-color 0.3s ease;
+        }
+
+        .get-started-btn:hover {
+            background-color: #0056b3;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .video-section {
+            text-align: center;
+            padding: 4rem 1rem;
+            background-color: #f8f9fa;
+        }
+
+        .video-section h2 {
+            font-size: 2rem;
+            color: #333;
+            margin-bottom: 2rem;
+        }
+
+        .video-container {
+            position: relative;
+            width: 100%;
+            max-width: 860px;
+            margin: 0 auto;
+            padding-bottom: 2rem;
+        }
+
+        .video-container iframe {
+            max-width: 100%;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+
+        @media (max-width: 768px) {
+            .video-container iframe {
+                height: 315px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .video-container iframe {
+                height: 240px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1 class="brand">StockSizing <span>AI</span></h1>
+    </header>
+
+    <nav>
+        <a href="/">Home</a>
+        <a href="/optimize">Portfolio Optimize</a>
+        <a href="/pricing">Pricing</a>
+        <a href="/faq">FAQ</a>
+        <a href="/login">Login</a>
+        <a href="https://billing.stripe.com/p/login/test_7sIdUpc9O0EQ73q8ww">Customer Portal</a>
+    </nav>
+
+    <div class="hero">
+        <h2>Optimize Your Investment Portfolio</h2>
+        <p>Easily Use Advanced AI algorithms to find your Best Porfolio Weights</p>
+        <a href="/pricing" class="get-started-btn">Get Started</a>
+    </div>
+
+    <div class="video-section">
+        <div class="video-container">
+            <iframe 
+                width="860" 
+                height="485" 
+                src="https://www.youtube.com/embed/7edR32QVp_A" 
+                title="StockSizing AI Introduction" 
+                frameborder="0" 
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                allowfullscreen>
+            </iframe>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2024 StockSizing AI. All Rights Reserved.</p>
+        <a href="/privacy-policy">Privacy Policy</a>
+        <a href="/terms-of-service">Terms of Service</a>
+    </footer>
+</body>
+</html> 

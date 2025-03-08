@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>StockSizing AI - FAQ</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+
+        header {
+            background-color: #007bff;
+            color: white;
+            padding: 1rem;
+            text-align: center;
+        }
+
+        .brand {
+            font-size: 2rem;
+            margin: 0;
+        }
+
+        .brand span {
+            color: #ff4444;
+        }
+
+        .hero {
+            text-align: center;
+            padding: 3rem 1rem;
+            background-color: white;
+        }
+
+        .hero h2 {
+            font-size: 2.5rem;
+            color: #333;
+            margin-bottom: 1rem;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            color: #666;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .pricing-section {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 2rem;
+        }
+
+        footer {
+            background-color: #007bff;
+            color: white;
+            text-align: center;
+            padding: 1rem;
+            position: relative;
+            bottom: 0;
+            width: 100%;
+        }
+
+        nav {
+            background-color: #0056b3;
+            padding: 1rem;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            margin: 0 1rem;
+            font-weight: bold;
+        }
+
+        nav a:hover {
+            color: #ddd;
+        }
+
+        .get-started-btn {
+            display: inline-block;
+            background-color: #007bff;
+            color: white;
+            padding: 1rem 2rem;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: bold;
+            margin-top: 2rem;
+            transition: background-color 0.3s ease;
+        }
+
+        .get-started-btn:hover {
+            background-color: #0056b3;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .faq-container {
+            max-width: 800px;
+            margin: 2rem auto;
+            padding: 0 2rem;
+        }
+
+        .faq-item {
+            background: white;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .faq-question {
+            padding: 1.5rem;
+            cursor: pointer;
+            font-weight: bold;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: background-color 0.3s ease;
+        }
+
+        .faq-question:hover {
+            background-color: #f8f9fa;
+        }
+
+        .faq-answer {
+            padding: 0 1.5rem;
+            max-height: 0;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            line-height: 1.6;
+        }
+
+        .faq-answer.active {
+            padding: 1.5rem;
+            max-height: 500px;
+            border-top: 1px solid #eee;
+        }
+
+        .faq-question::after {
+            content: '+';
+            font-size: 1.5rem;
+            color: #007bff;
+        }
+
+        .faq-question.active::after {
+            content: '−';
+        }
+
+        .video-container {
+            position: relative;
+            width: 860px;
+            margin: 0 auto;
+            padding-bottom: 2rem;
+        }
+
+        .video-container iframe {
+            width: 860px;
+            height: 485px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+
+        /* Add these media query styles after your existing styles */
+        @media (max-width: 1024px) {
+            .faq-container {
+                padding: 0 1rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .hero h2 {
+                font-size: 2rem;
+            }
+
+            .hero p {
+                font-size: 1rem;
+            }
+
+            .faq-container {
+                margin: 1rem auto;
+            }
+
+            .faq-question {
+                padding: 1.2rem;
+                font-size: 0.95rem;
+            }
+
+            .faq-answer {
+                font-size: 0.9rem;
+            }
+
+            .faq-answer.active {
+                padding: 1.2rem;
+            }
+
+            nav {
+                text-align: center;
+            }
+
+            nav a {
+                display: inline-block;
+                padding: 0.5rem;
+                margin: 0 0.5rem;
+                font-size: 0.9rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero {
+                padding: 2rem 1rem;
+            }
+
+            .hero h2 {
+                font-size: 1.75rem;
+            }
+
+            .faq-container {
+                padding: 0 0.5rem;
+            }
+
+            .faq-question {
+                padding: 1rem;
+                font-size: 0.9rem;
+            }
+
+            .faq-answer {
+                font-size: 0.85rem;
+            }
+
+            .faq-answer.active {
+                padding: 1rem;
+            }
+
+            nav a {
+                padding: 0.4rem;
+                margin: 0 0.3rem;
+                font-size: 0.85rem;
+            }
+
+            .brand {
+                font-size: 1.5rem;
+            }
+        }
+
+        /* Add smooth scrolling for better mobile experience */
+        html {
+            scroll-behavior: smooth;
+        }
+
+        /* Improve touch targets for mobile */
+        .faq-question {
+            min-height: 44px; /* Minimum touch target size */
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1 class="brand">StockSizing <span>AI</span></h1>
+    </header>
+
+    <nav>
+        <a href="/">Home</a>
+        <a href="/optimize">Portfolio Optimize</a>
+        <a href="/pricing">Pricing</a>
+        <a href="/faq">FAQ</a>
+        <a href="https://billing.stripe.com/p/login/test_7sIdUpc9O0EQ73q8ww">Customer Portal</a>
+    </nav>
+
+    <div class="hero">
+        <h2>Frequently Asked Questions</h2>
+    </div>
+
+    <div class="faq-item"> 
+        <div class="faq-item">
+            <div class="faq-question">What is StockSizing AI?</div>
+            <div class="faq-answer">
+                StockSizing AI is an advanced portfolio optimization platform that uses artificial intelligence to help investors create well-balanced investment portfolios. Our system analyzes historical market data and uses modern portfolio theory to suggest optimal asset allocations that maximize returns while managing risk.
+            </div>
+        </div>
+
+        <div class="faq-item">
+            <div class="faq-question">How do I get started with StockSizing AI?</div>
+            <div class="faq-answer">
+                Getting started is easy:
+                <ol>
+                    <li>Choose a subscription plan that fits your needs</li>
+                    <li>Select the assets you want to include in your portfolio</li>
+                    <li>Set your desired time period for analysis</li>
+                    <li>Click "Optimize Portfolio" to receive your personalized portfolio allocation</li>
+                </ol>
+            </div>
+        </div>
+
+        <div class="faq-item">
+            <div class="faq-question">What types of assets can I include in my portfolio?</div>
+            <div class="faq-answer">
+                You can include various types of publicly traded assets, including:
+                <ul>
+                    <li>Stocks (using ticker symbols)</li>
+                    <li>ETFs</li>
+                    <li>Mutual Funds</li>
+                    <li>REITs</li>
+                </ul>
+                Simply enter the ticker symbol for each asset you want to include in your portfolio.
+            </div>
+        </div>
+
+        <div class="faq-item">
+            <div class="faq-question">How many assets can I analyze at once?</div>
+            <div class="faq-answer">
+                You can analyze between 2 and 30 assets at once. We recommend starting with 5-10 assets for optimal diversification. This limit ensures that our optimization algorithm can provide accurate and meaningful results while maintaining computational efficiency.
+            </div>
+        </div>
+
+        <div class="faq-item">
+            <div class="faq-question">How often should I rebalance my portfolio?</div>
+            <div class="faq-answer">
+                We recommend reviewing and rebalancing your portfolio quarterly or semi-annually. However, the optimal frequency depends on several factors:
+                <ul>
+                    <li>Market conditions and volatility</li>
+                    <li>Your investment strategy</li>
+                    <li>Transaction costs</li>
+                    <li>Tax implications</li>
+                </ul>
+                Premium subscribers receive notifications when portfolio rebalancing might be beneficial.
+            </div>
+        </div>
+
+        <div class="faq-item">
+            <div class="faq-question">What data do you use for analysis?</div>
+            <div class="faq-answer">
+                We use high-quality financial data from reliable sources, including major stock exchanges and financial data providers. Our system analyzes:
+                <ul>
+                    <li>Historical price data</li>
+                    <li>Volume information</li>
+                    <li>Volatility patterns</li>
+                    <li>Asset correlations</li>
+                </ul>
+                The data is regularly updated to ensure accuracy in our analysis.
+            </div>
+        </div>
+
+        <div class="faq-item">
+            <div class="faq-question">Is my data secure?</div>
+            <div class="faq-answer">
+                Yes, we take security very seriously. We implement multiple layers of protection:
+                <ul>
+                    <li>Industry-standard encryption for all data transmission</li>
+                    <li>Secure storage of user information</li>
+                    <li>Regular security audits and updates</li>
+                    <li>No storage of sensitive financial information</li>
+                </ul>
+                We only use the asset symbols and date ranges you provide for optimization calculations.
+            </div>
+        </div>
+
+        <div class="faq-item">
+            <div class="faq-question">What are the subscription plans and pricing?</div>
+            <div class="faq-answer">
+                We offer several subscription tiers to meet different needs:
+                <ul>
+                    <li>Free Plan: Basic portfolio optimization with limited features</li>
+                    <li>Standard Plan: Advanced optimization tools and detailed analysis</li>
+                    <li>Premium Plan: Full access to all features, including real-time optimization</li>
+                </ul>
+                Visit our <a href="/pricing" style="color: #007bff;">pricing page</a> for detailed information about each plan.
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2024 StockSizing AI. All Rights Reserved.</p>
+        <a href="/privacy-policy">Privacy Policy</a>
+        <a href="/terms-of-service">Terms of Service</a>
+    </footer>
+
+    <script>
+        // Add click event listeners to FAQ questions
+        document.querySelectorAll('.faq-question').forEach(question => {
+            question.addEventListener('click', () => {
+                // Toggle active class on question
+                question.classList.toggle('active');
+                
+                // Toggle active class on answer
+                const answer = question.nextElementSibling;
+                answer.classList.toggle('active');
+            });
+        });
+    </script>
+</body>
+</html> 
