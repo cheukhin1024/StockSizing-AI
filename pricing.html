@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pricing - StockSizing AI</title>
+    <script async src="https://js.stripe.com/v3/pricing-table.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #2563eb;
+            --primary-dark: #1d4ed8;
+            --secondary: #4f46e5;
+            --accent: #f43f5e;
+            --background: #ffffff;
+            --background-alt: #f8fafc;
+            --text: #1f2937;
+            --text-light: #6b7280;
+            --border: #e5e7eb;
+            --max-width: 1200px;
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            line-height: 1.6;
+            color: var(--text);
+            background-color: var(--background);
+        }
+
+        header {
+            background-color: transparent;
+            padding: 1rem 0;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            transition: background-color 0.3s ease;
+        }
+
+        header.scrolled {
+            background-color: rgba(255, 255, 255, 0.95);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .container {
+            max-width: var(--max-width);
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .brand {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--text);
+            text-decoration: none;
+        }
+
+        .brand span {
+            color: var(--accent);
+        }
+
+        nav {
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        nav a {
+            color: var(--text);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        nav a:hover {
+            color: var(--primary);
+        }
+
+        .cta-button {
+            background-color: var(--primary);
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            text-decoration: none;
+        }
+
+        .cta-button:hover {
+            background-color: var(--primary-dark);
+            transform: translateY(-2px);
+        }
+
+        /* Pricing Section */
+        .pricing-hero {
+            padding: 160px 0 80px;
+            background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+            text-align: center;
+        }
+
+        .pricing-hero h1 {
+            font-size: 3rem;
+            line-height: 1.2;
+            margin-bottom: 1.5rem;
+            font-weight: 800;
+            background: linear-gradient(to right, var(--text) 0%, var(--primary) 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .pricing-hero p {
+            font-size: 1.25rem;
+            color: var(--text-light);
+            max-width: 700px;
+            margin: 0 auto 2rem;
+        }
+
+        .pricing-section {
+            padding: 80px 0;
+            background-color: var(--background);
+        }
+
+        stripe-pricing-table {
+            max-width: 1000px;
+            margin: 0 auto;
+            display: block;
+        }
+
+        /* Footer */
+        footer {
+            background-color: #1f2937;
+            color: white;
+            padding: 4rem 0 2rem;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 3rem;
+            margin-bottom: 3rem;
+        }
+
+        .footer-links h4 {
+            margin-bottom: 1.5rem;
+            font-size: 1.1rem;
+        }
+
+        .footer-links a {
+            color: #9ca3af;
+            text-decoration: none;
+            display: block;
+            margin-bottom: 0.75rem;
+            transition: color 0.3s ease;
+        }
+
+        .footer-links a:hover {
+            color: white;
+        }
+
+        @media (max-width: 768px) {
+            .pricing-hero h1 {
+                font-size: 2.5rem;
+            }
+
+            nav {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container nav-container">
+            <a href="/" class="brand">StockSizing <span>AI</span></a>
+            <nav>
+                <a href="/">Home</a>
+                <a href="/optimize">Portfolio Optimize</a>
+                <a href="/pricing">Pricing</a>
+                <a href="/faq">FAQ</a>
+                <a href="/login">Login</a>
+                <a href="/signup" class="cta-button">Get Started</a>
+            </nav>
+        </div>
+    </header>
+
+    <section class="pricing-hero">
+        <div class="container">
+            <h1>Simple, Transparent Pricing</h1>
+            <p>Choose the plan that fits your investment strategy. Upgrade or downgrade anytime.</p>
+        </div>
+    </section>
+
+    <section class="pricing-section">
+        <div class="container">
+            <stripe-pricing-table id="pricingTable" pricing-table-id="prctbl_1QHkZCG4CmYrOkCIwCpxKi3C"
+            publishable-key="pk_test_51QHcHrG4CmYrOkCIsW4pa0fwqV0J16IfBymYiIT82gUcXtHzSXUwHnqw9IV0UHEnfMGo09d7bTJvg2dELL0z5kMz00tZEwRmaw"
+            customer-email=""
+            success-url="/post-subscribe"
+            >
+            </stripe-pricing-table>
+            <div style="text-align:center; margin-top: 1rem;">
+                <button id="manageSubscription" class="cta-button" style="display:none;">Manage Subscription</button>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-links">
+                    <h4>Product</h4>
+                    <a href="/optimize">Portfolio Optimizer</a>
+                    <a href="/pricing">Pricing</a>
+                    <a href="/faq">FAQ</a>
+                </div>
+                <div class="footer-links">
+                    <h4>Company</h4>
+                    <a href="/about">About Us</a>
+                    <a href="/research">Research</a>
+                    <!--<a href="/careers">Careers</a> -->
+                </div>
+                <div class="footer-links">
+                    <h4>Legal</h4>
+                    <a href="/privacy-policy">Privacy Policy</a>
+                    <a href="/terms-of-service">Terms of Service</a>
+                </div>
+                <div class="footer-links">
+                    <h4>Connect</h4>
+                    <!--<a href="#"><i class="fab fa-twitter"></i> Twitter</a>-->
+                    <a href="#"><i class="fab fa-instagram"></i> Instagram</a>
+                    <a href="#"><i class="fab fa-youtube"></i> YouTube</a>
+                    <a href="#"><i class="fab fa-github"></i> GitHub</a>
+                </div>
+            </div>
+            <div style="text-align: center; padding-top: 2rem; border-top: 1px solid #374151;">
+                <p>&copy; 2024 StockSizing AI. All Rights Reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Add scroll effect to header
+        window.addEventListener('scroll', () => {
+            const header = document.querySelector('header');
+            if (window.scrollY > 50) {
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
+            }
+        });
+        // Auth-aware UI
+        const customerId = localStorage.getItem('customer-id');
+        const customerEmail = localStorage.getItem('email');
+        const pricingTableEl = document.getElementById('pricingTable');
+        if (pricingTableEl && customerEmail) {
+            pricingTableEl.setAttribute('customer-email', customerEmail);
+        }
+        const manageBtn = document.getElementById('manageSubscription');
+        if (customerId) {
+            manageBtn.style.display = 'inline-block';
+            manageBtn.addEventListener('click', async () => {
+                try {
+                    const res = await fetch('/create_billing_portal_session', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'customer-id': customerId
+                        },
+                        body: JSON.stringify({ return_url: '/optimize' })
+                    });
+                    const data = await res.json();
+                    if (data.url) {
+                        window.location.href = data.url;
+                    } else {
+                        alert('Unable to open billing portal.');
+                    }
+                } catch (e) {
+                    alert('Error opening billing portal.');
+                }
+            });
+        }
+    </script>
+</body>
+</html> 

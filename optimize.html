@@ -1,0 +1,810 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portfolio Optimization - StockSizing AI</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #2563eb;
+            --primary-dark: #1d4ed8;
+            --secondary: #4f46e5;
+            --accent: #f43f5e;
+            --success: #10b981;
+            --background: #ffffff;
+            --background-alt: #f8fafc;
+            --text: #1f2937;
+            --text-light: #6b7280;
+            --border: #e5e7eb;
+            --max-width: 1200px;
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            line-height: 1.6;
+            color: var(--text);
+            background-color: var(--background-alt);
+        }
+
+        header {
+            background-color: transparent;
+            padding: 1rem 0;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            transition: background-color 0.3s ease;
+        }
+
+        header.scrolled {
+            background-color: rgba(255, 255, 255, 0.95);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .container {
+            max-width: var(--max-width);
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .brand {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--text);
+            text-decoration: none;
+        }
+
+        .brand span {
+            color: var(--accent);
+        }
+
+        nav {
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        nav a {
+            color: var(--text);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        nav a:hover {
+            color: var(--primary);
+        }
+
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            font-weight: 600;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            text-decoration: none;
+        }
+
+        .btn-primary {
+            background-color: var(--primary);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background-color: var(--primary-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(37, 99, 235, 0.2);
+        }
+
+        .btn-success {
+            background-color: var(--success);
+            color: white;
+        }
+
+        .btn-success:hover {
+            background-color: #0ea271;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(16, 185, 129, 0.2);
+        }
+
+        .btn-danger {
+            background-color: var(--accent);
+            color: white;
+        }
+
+        .btn-danger:hover {
+            background-color: #e11d48;
+            transform: translateY(-2px);
+        }
+
+        /* Hero section */
+        .optimize-hero {
+            background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+            padding: 140px 0 60px;
+            text-align: center;
+        }
+
+        .hero-content {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .hero-title {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+            background: linear-gradient(to right, var(--text) 0%, var(--primary) 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero-description {
+            font-size: 1.1rem;
+            color: var(--text-light);
+            margin-bottom: 2rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* Main content */
+        .main-content {
+            padding: 60px 0;
+        }
+
+        .optimization-container {
+            max-width: 800px;
+            margin: 0 auto 40px;
+            padding: 2rem;
+            background: white;
+            border-radius: 16px;
+            box-shadow: var(--shadow);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .optimization-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+        }
+
+        .section-title {
+            font-size: 1.75rem;
+            font-weight: 700;
+            margin-bottom: 2rem;
+            text-align: center;
+            color: var(--text);
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        label {
+            display: block;
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+            color: var(--text);
+        }
+
+        input[type="date"],
+        input[type="text"] {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        input[type="date"]:focus,
+        input[type="text"]:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+        }
+
+        .form-row {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .form-row .form-group {
+            flex: 1;
+            margin-bottom: 0;
+        }
+
+        .asset-input-group {
+            position: relative;
+            margin-bottom: 1.5rem;
+            background: white;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 1.25rem;
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
+        }
+
+        .asset-input-group:hover {
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+        }
+
+        .asset-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.75rem;
+        }
+
+        .asset-number {
+            font-weight: 600;
+            color: var(--primary);
+        }
+
+        .asset-remove {
+            background: none;
+            border: none;
+            color: var(--text-light);
+            cursor: pointer;
+            font-size: 1rem;
+            transition: color 0.2s ease;
+        }
+
+        .asset-remove:hover {
+            color: var(--accent);
+        }
+
+        .suggestions-list {
+            position: absolute;
+            top: calc(100% - 8px);
+            left: 0;
+            right: 0;
+            background: white;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            box-shadow: var(--shadow);
+            z-index: 10;
+            max-height: 200px;
+            overflow-y: auto;
+        }
+
+        .suggestion-item {
+            padding: 0.75rem 1rem;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: background-color 0.2s ease;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .suggestion-item:last-child {
+            border-bottom: none;
+        }
+
+        .suggestion-item:hover {
+            background-color: var(--background-alt);
+        }
+
+        .suggestion-symbol {
+            font-weight: 600;
+            color: var(--text);
+        }
+
+        .suggestion-name {
+            font-size: 0.875rem;
+            color: var(--text-light);
+        }
+
+        .asset-controls {
+            display: flex;
+            gap: 1rem;
+            margin-top: 2rem;
+            justify-content: space-between;
+        }
+
+        .results-container {
+            margin-top: 2rem;
+            padding: 2rem;
+            background: white;
+            border-radius: 12px;
+            animation: fadeIn 0.5s ease;
+            box-shadow: var(--shadow);
+        }
+
+        .results-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: var(--text);
+        }
+
+        .results-data {
+            background-color: var(--background-alt);
+            padding: 1rem;
+            border-radius: 8px;
+            font-family: monospace;
+            overflow-x: auto;
+        }
+
+        .chart-container {
+            margin-top: 2rem;
+            background: white;
+            border-radius: 12px;
+            padding: 1rem;
+            box-shadow: var(--shadow);
+            text-align: center;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .loader-container {
+            text-align: center;
+            padding: 3rem 2rem;
+            background: white;
+            border-radius: 12px;
+            box-shadow: var(--shadow);
+            margin-top: 2rem;
+        }
+
+        .loader {
+            width: 50px;
+            height: 50px;
+            border: 4px solid #e2e8f0;
+            border-top-color: var(--primary);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 1.5rem;
+        }
+
+        .progress-text {
+            color: var(--text-light);
+            margin-bottom: 0.5rem;
+        }
+
+        #optimizationStatus {
+            font-weight: 600;
+            color: var(--primary);
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        .info-card {
+            background-color: #f0f9ff;
+            border-left: 4px solid var(--primary);
+            padding: 1rem;
+            margin: 2rem 0;
+            border-radius: 4px;
+        }
+
+        .info-card p {
+            color: var(--text);
+            margin: 0;
+        }
+
+        footer {
+            background-color: #1f2937;
+            color: white;
+            padding: 4rem 0 2rem;
+            margin-top: 4rem;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 3rem;
+            margin-bottom: 3rem;
+        }
+
+        .footer-links h4 {
+            color: white;
+            margin-bottom: 1.25rem;
+            font-size: 1.1rem;
+        }
+
+        .footer-links a {
+            color: #9ca3af;
+            text-decoration: none;
+            display: block;
+            margin-bottom: 0.75rem;
+            transition: color 0.3s ease;
+        }
+
+        .footer-links a:hover {
+            color: white;
+        }
+
+        @media (max-width: 768px) {
+            nav {
+                display: none;
+            }
+
+            .form-row {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .asset-controls {
+                flex-direction: column;
+            }
+
+            .hero-title {
+                font-size: 2rem;
+            }
+
+            .optimization-container {
+                margin: 0 1rem 2rem;
+                padding: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container nav-container">
+            <a href="/" class="brand">StockSizing <span>AI</span></a>
+            <nav>
+                <a href="/">Home</a>
+                <a href="/optimize">Portfolio Optimize</a>
+                <a href="/pricing">Pricing</a>
+                <a href="/faq">FAQ</a>
+                <a href="/login" id="loginLink">Login</a>
+                <a href="/signup" id="signupLink" class="btn btn-primary">Get Started</a>
+            </nav>
+        </div>
+    </header>
+
+    <section class="optimize-hero">
+        <div class="container">
+            <div class="hero-content">
+                <h1 class="hero-title">Optimize Your Investment Portfolio</h1>
+                <p class="hero-description">Use our AI-powered tools to maximize returns and minimize risk with data-driven portfolio allocations.</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="main-content">
+        <div class="container">
+            <div class="optimization-container">
+                
+                <form id="portfolioForm">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="start_date">Start Date</label>
+                            <input type="text" id="start_date" name="start_date" placeholder="yyyy/mm/dd" pattern="\d{4}/\d{2}/\d{2}" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="end_date">End Date</label>
+                            <input type="text" id="end_date" name="end_date" placeholder="yyyy/mm/dd" pattern="\d{4}/\d{2}/\d{2}" required>
+                        </div>
+                    </div>
+                    
+                    <div id="assetInputs">
+                        <div class="asset-input-group">
+                            <div class="asset-header">
+                                <span class="asset-number">Asset 1</span>
+                            </div>
+                            <input type="text" id="asset1" name="assets" required placeholder="Search for stocks, ETFs, or other assets...">
+                            <div id="suggestions1" class="suggestions-list" style="display: none;"></div>
+                        </div>
+                        
+                        <div class="asset-input-group">
+                            <div class="asset-header">
+                                <span class="asset-number">Asset 2</span>
+                            </div>
+                            <input type="text" id="asset2" name="assets" required placeholder="Search for stocks, ETFs, or other assets...">
+                            <div id="suggestions2" class="suggestions-list" style="display: none;"></div>
+                        </div>
+                    </div>
+
+                    <div class="info-card">
+                        <p><i class="fas fa-info-circle"></i> Add up to 5 assets with your current plan. Need more? <a href="/pricing">Upgrade your plan</a>.</p>
+                    </div>
+
+                    <div class="asset-controls">
+                        <button type="button" id="addAsset" class="btn btn-success">
+                            <i class="fas fa-plus"></i> Add Asset
+                        </button>
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-magic"></i> Optimize Portfolio
+                        </button>
+                    </div>
+                </form>
+
+                <div id="loaderContainer" class="loader-container" style="display: none;">
+                    <div class="loader"></div>
+                    <p class="progress-text">Optimizing your portfolio...</p>
+                    <p class="progress-text" id="optimizationStatus">Gathering market data</p>
+                </div>
+
+                <div id="result" class="results-container" style="display: none;">
+                    <h3 class="results-title">Optimization Results</h3>
+                    <div class="results-data" id="resultsData"></div>
+                </div>
+                
+                <div id="chartContainer" class="chart-container" style="display: none;">
+                    <h3 class="results-title">Portfolio Allocation</h3>
+                    <img id="chart" style="width: 100%; max-width: 500px; height: auto;" alt="Portfolio Pie Chart">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-links">
+                    <h4>Product</h4>
+                    <a href="/optimize">Portfolio Optimizer</a>
+                    <a href="/pricing">Pricing</a>
+                    <a href="/faq">FAQ</a>
+                </div>
+                <div class="footer-links">
+                    <h4>Company</h4>
+                    <a href="/about">About Us</a>
+                    <a href="/research">Research</a>
+                    <!--<a href="/careers">Careers</a> -->
+                </div>
+                <div class="footer-links">
+                    <h4>Legal</h4>
+                    <a href="/privacy-policy">Privacy Policy</a>
+                    <a href="/terms-of-service">Terms of Service</a>
+                </div>
+                <div class="footer-links">
+                    <h4>Connect</h4>
+                    <!--<a href="#"><i class="fab fa-twitter"></i> Twitter</a>-->
+                    <a href="#"><i class="fab fa-instagram"></i> Instagram</a>
+                    <a href="#"><i class="fab fa-youtube"></i> YouTube</a>
+                    <a href="#"><i class="fab fa-github"></i> GitHub</a>
+                </div>
+            </div>
+            <div style="text-align: center; padding-top: 2rem; border-top: 1px solid #374151;">
+                <p>&copy; 2024 StockSizing AI. All Rights Reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Add scroll effect to header
+        window.addEventListener('scroll', () => {
+            const header = document.querySelector('header');
+            if (window.scrollY > 50) {
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
+            }
+        });
+        // Toggle auth links if logged in
+        (function() {
+            const cid = localStorage.getItem('customer-id');
+            const email = localStorage.getItem('email');
+            const loginLink = document.getElementById('loginLink');
+            const signupLink = document.getElementById('signupLink');
+            if (cid && email) {
+                if (loginLink) loginLink.textContent = 'Account';
+                if (loginLink) loginLink.href = '/pricing';
+                if (signupLink) signupLink.textContent = 'Manage';
+                if (signupLink) signupLink.href = '/pricing';
+            }
+        })();
+        
+        let assetCount = 2;
+
+        function debounce(func, wait) {
+            let timeout;
+            return function executedFunction(...args) {
+                const later = () => {
+                    clearTimeout(timeout);
+                    func(...args);
+                };
+                clearTimeout(timeout);
+                timeout = setTimeout(later, wait);
+            };
+        }
+
+        function createAutocomplete(inputId) {
+            const input = document.getElementById(inputId);
+            const suggestionsDiv = document.getElementById('suggestions' + inputId.replace('asset', ''));
+            
+            const searchSymbols = debounce(async (keyword) => {
+                if (keyword.length < 2) {
+                    suggestionsDiv.style.display = 'none';
+                    return;
+                }
+
+                try {
+                    const response = await fetch(`/search_symbol/${keyword}`);
+                    const data = await response.json();
+                    
+                    suggestionsDiv.innerHTML = '';
+                    if (data.length > 0) {
+                        data.forEach(item => {
+                            const div = document.createElement('div');
+                            div.className = 'suggestion-item';
+                            div.innerHTML = `
+                                <span class="suggestion-symbol">${item.symbol}</span>
+                                <span class="suggestion-name">${item.name} (${item.region})</span>
+                            `;
+                            div.onclick = () => {
+                                input.value = item.symbol;
+                                suggestionsDiv.style.display = 'none';
+                            };
+                            suggestionsDiv.appendChild(div);
+                        });
+                        suggestionsDiv.style.display = 'block';
+                    } else {
+                        suggestionsDiv.style.display = 'none';
+                    }
+                } catch (error) {
+                    console.error('Error fetching suggestions:', error);
+                }
+            }, 300);
+
+            input.addEventListener('input', (e) => {
+                searchSymbols(e.target.value);
+            });
+
+            // Hide suggestions when clicking outside
+            document.addEventListener('click', (e) => {
+                if (!input.contains(e.target) && !suggestionsDiv.contains(e.target)) {
+                    suggestionsDiv.style.display = 'none';
+                }
+            });
+        }
+
+        // Initialize autocomplete for initial inputs
+        createAutocomplete('asset1');
+        createAutocomplete('asset2');
+
+        document.getElementById('addAsset').addEventListener('click', function() {
+            assetCount++;
+            const assetDiv = document.createElement('div');
+            assetDiv.className = 'asset-input-group';
+            assetDiv.innerHTML = `
+                <div class="asset-header">
+                    <span class="asset-number">Asset ${assetCount}</span>
+                    <button type="button" class="asset-remove">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                <input type="text" id="asset${assetCount}" name="assets" required placeholder="Search for stocks, ETFs, or other assets...">
+                <div id="suggestions${assetCount}" class="suggestions-list" style="display: none;"></div>
+            `;
+            document.getElementById('assetInputs').appendChild(assetDiv);
+            createAutocomplete(`asset${assetCount}`);
+        });
+
+        document.getElementById('assetInputs').addEventListener('click', function(event) {
+            if (event.target.classList.contains('asset-remove') || event.target.parentElement.classList.contains('asset-remove')) {
+                const assetDiv = event.target.closest('.asset-input-group');
+                if (assetCount > 2) {
+                    assetDiv.remove();
+                    assetCount--;
+                    // Renumber the remaining assets
+                    const assetDivs = document.querySelectorAll('.asset-input-group');
+                    assetDivs.forEach((div, index) => {
+                        div.querySelector('.asset-number').textContent = `Asset ${index + 1}`;
+                    });
+                } else {
+                    alert("You must have at least 2 assets.");
+                }
+            }
+        });
+
+        document.getElementById('portfolioForm').addEventListener('submit', async function(event) {
+            event.preventDefault();
+            const formData = new FormData(this);
+            const assets = Array.from(formData.getAll('assets'));
+
+            if (assets.length > 5) {
+                alert(`Your current plan only allows up to 5 assets. Please upgrade your plan to add more assets.`);
+                return;
+            }
+
+            // Show the loader
+            document.getElementById('loaderContainer').style.display = 'block';
+            document.getElementById('result').style.display = 'none';
+            document.getElementById('chartContainer').style.display = 'none';
+            
+            // Update status message every few seconds to simulate progress
+            const statusElement = document.getElementById('optimizationStatus');
+            const statusMessages = [
+                "Gathering market data",
+                "Calculating correlations",
+                "Building portfolio matrix",
+                "Applying optimization algorithm",
+                "Computing efficient frontier",
+                "Finalizing allocation weights"
+            ];
+            
+            let messageIndex = 0;
+            const statusInterval = setInterval(() => {
+                messageIndex = (messageIndex + 1) % statusMessages.length;
+                statusElement.textContent = statusMessages[messageIndex];
+            }, 2000);
+
+            // Add customer ID to headers
+            const headers = {
+                'Content-Type': 'application/json',
+                'customer-id': localStorage.getItem('customer-id')
+            };
+
+            try {
+                const response = await fetch('/optimize_portfolio', {
+                    method: 'POST',
+                    headers: headers,
+                    body: JSON.stringify({
+                        start_date: formData.get('start_date'),
+                        end_date: formData.get('end_date'),
+                        assets: assets.map(asset => asset.trim())
+                    })
+                });
+
+                // Clear the status message interval
+                clearInterval(statusInterval);
+
+                if (response.status === 403) {
+                    const error = await response.json();
+                    alert(error.detail);
+                    document.getElementById('loaderContainer').style.display = 'none';
+                    return;
+                }
+
+                const result = await response.json();
+                
+                // Hide loader
+                document.getElementById('loaderContainer').style.display = 'none';
+                
+                // Display results
+                if (result.weights) {
+                    const weightsData = JSON.stringify(result.weights, null, 2);
+                    document.getElementById('resultsData').textContent = weightsData;
+                    document.getElementById('result').style.display = 'block';
+                }
+                
+                // Display chart
+                if (result.plot) {
+                    const chartImg = document.getElementById('chart');
+                    chartImg.src = `data:image/png;base64,${result.plot}`;
+                    document.getElementById('chartContainer').style.display = 'block';
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                clearInterval(statusInterval);
+                document.getElementById('loaderContainer').style.display = 'none';
+                alert('There was an error optimizing your portfolio. Please try again later.');
+            }
+        });
+    </script>
+</body>
+</html>
